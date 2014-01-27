@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Symbol | Ractive.js</title>
+	<link rel="stylesheet" href="/packaged/css/semantic.min.css">
+	<style>
+.ui.items>.item{
+	min-height: 100px;
+}
+	</style>
+}
+</head>
+<body>
+	<div class="ui page grid masterhead segment">
+		<div class="column">
+			<h1 class="center aligned name ui header">
+				S&yacute;mb&otilde;l Library
+			</h1>
+			<div class="ui horizontal divider"><i class="circular fire icon"></i></div>
+			<div class="ui six items" id="desc">
+			<!-- Aqui se inserta el template -->
+			</div>
+		</div>
+	</div>
+
+<script id="template" type="text/x-template">
+	{{#symbols:i}}
+		<div class="item">
+			<div class="content">
+				<div class="ui small {{labelColor(i)}} ribbon label">{{group}}</div>
+				<div class="name">{{decode(html)}}</div>
+				<p class="description">{{name}}</p>
+			</div>
+		</div>
+	{{/symbols}}
+</script>
+
+<script src="Ractive.min.js"></script>
+<script>
+
+var r = new Ractive({
+	el:'#desc',
+	template:'#template',
+	data:{
+		symbols:[
+			{group:'ISO',name:'Currency',html:'curren',entity:'#164'},
+			{group:'Special',name:'Apple logo',html:'#8984',entity:'#8984'},
+			{group:'Special',name:'Black star',html:'#9733',entity:'#9733'}
+		],
+		decode:function(txt){
+			var span = document.createElement('span');
+			span.innerHTML = '&' + txt + ';';
+			return span.innerHTML;
+		},
+		labelColor:function(i){
+			var color = ['black','green','red','blue','orange','purple','teal'];
+			return color[i%(color.length)];
+		}
+	}
+});
+
+
+</script>
+</body>
+</html>
