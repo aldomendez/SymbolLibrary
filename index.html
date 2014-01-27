@@ -51,7 +51,14 @@
 			</div>
 		</div>
 		<div class="ui horizontal divider"></div>
-		<div class="ui three fields">
+		<div class="ui four fields">
+			<div class="field">
+					<label for="group">Group</label>
+				<div class="ui left labeled icon input">
+					<input type="text" name="group" placeholder="" value="{{group}}">
+					<i class="terminal icon"></i>
+				</div>
+			</div>
 			<div class="field">
 					<label for="symbol">Symbol</label>
 				<div class="ui left labeled icon input">
@@ -98,12 +105,11 @@ var r = new Ractive({
 			{group:'Special',name:'Shift',html:'#8679',entity:'#8679'}
 		],
 		newEntry:{group:'',name:'',html:'',entity:''},
+		masterGroup:'',
 		decode:function(txt){
 			var span = document.createElement('span');
-			if (txt === '') {
-				txt ='eth';
-			};
-			span.innerHTML = '&' + txt + ';';
+			var start = !isNaN(txt)?'&#':'&';
+			span.innerHTML = txt===''?'':start+txt+';';
 			return span.innerHTML;
 		},
 		labelColor:function(i){
@@ -112,10 +118,19 @@ var r = new Ractive({
 		}
 	}
 });
-
+r.observe('newEntry.html',function (n,o) {
+	if (n[0]==='#') {
+		r.set('newEntry.entity',n);
+	} else {
+		r.set('newEntry.entity','');
+	};
+});
+r.observe('newEntry.group',function (n,o) {
+	r.set('masterGroup',n);
+});
 r.on('add', function(){
 	r.data.symbols.push(r.data.newEntry);
-	r.set('newEntry',{group:'',name:'',html:'',entity:''});
+	r.set('newEntry',{group:r.data.masterGroup,name:'',html:'',entity:''});
 });
 
 </script>
