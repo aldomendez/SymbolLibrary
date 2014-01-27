@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Symbol | Ractive.js</title>
-	<link rel="stylesheet" href="/packaged/css/semantic.min.css">
+	<link rel="stylesheet" href="./packaged/css/semantic.min.css">
 	<style>
 .ui.items>.item{
 	min-height: 100px;
@@ -18,13 +18,14 @@
 				S&yacute;mb&otilde;l Library
 			</h1>
 			<div class="ui horizontal divider"><i class="circular fire icon"></i></div>
-			<div class="ui six items" id="desc">
+			<div id="desc">
 			<!-- Aqui se inserta el template -->
 			</div>
 		</div>
 	</div>
 
 <script id="template" type="text/x-template">
+	<div class="ui six items">
 	{{#symbols:i}}
 		<div class="item">
 			<div class="content">
@@ -34,6 +35,48 @@
 			</div>
 		</div>
 	{{/symbols}}
+	</div>
+	<div class="ui horizontal divider"><i class="red circular inverted pencil icon"></i></div>
+	{{#newEntry}}
+	<div class="ui form">
+
+		<div class="ui two column center aligned divided relaxed grid ">
+			<div class="row">
+				<div class="column">
+					<div class="ui massive message">{{decode(html)}}</div>
+				</div>
+				<div class="column">
+					<div class="ui massive message">{{decode(entity)}}</div>
+				</div>
+			</div>
+		</div>
+		<div class="ui horizontal divider"></div>
+		<div class="ui three fields">
+			<div class="field">
+					<label for="symbol">Symbol</label>
+				<div class="ui left labeled icon input">
+					<input type="text" name="symbol" placeholder="" value="{{name}}">
+					<i class="terminal icon"></i>
+				</div>
+			</div>
+			<div class="field">
+					<label for="html">HTML</label>
+				<div class="ui left labeled icon input">
+					<input type="text" name="html" placeholder="" value="{{html}}">
+					<i class="anchor icon"></i>
+				</div>
+			</div>
+			<div class="field">
+					<label for="entity">Entity</label>
+				<div class="ui left labeled icon input">
+					<input type="text" name="entity" placeholder="" value="{{entity}}">
+					<i class="keyboard icon"></i>
+				</div>
+			</div>
+		</div>
+		<div class="ui blue button" on-click="add">Agregar</div>
+	</div>
+	{{/newEntry}}
 </script>
 
 <script src="Ractive.min.js"></script>
@@ -46,10 +89,20 @@ var r = new Ractive({
 		symbols:[
 			{group:'ISO',name:'Currency',html:'curren',entity:'#164'},
 			{group:'Special',name:'Apple logo',html:'#8984',entity:'#8984'},
-			{group:'Special',name:'Black star',html:'#9733',entity:'#9733'}
+			{group:'Special',name:'Black star',html:'#9733',entity:'#9733'},
+			{group:'Special',name:'White star',html:'#9734',entity:'#9734'},
+			{group:'Special',name:'Black star',html:'#9733',entity:'#9733'},
+			{group:'Special',name:'Circle star',html:'#9055',entity:'#9055'},
+			{group:'Special',name:'Circle star, Daring Fireball',html:'#10026',entity:'#10026'},
+			{group:'Special',name:'Alt, Option',html:'#8997',entity:'#8997'},
+			{group:'Special',name:'Shift',html:'#8679',entity:'#8679'}
 		],
+		newEntry:{group:'',name:'',html:'',entity:''},
 		decode:function(txt){
 			var span = document.createElement('span');
+			if (txt === '') {
+				txt ='eth';
+			};
 			span.innerHTML = '&' + txt + ';';
 			return span.innerHTML;
 		},
@@ -60,6 +113,10 @@ var r = new Ractive({
 	}
 });
 
+r.on('add', function(){
+	r.data.symbols.push(r.data.newEntry);
+	r.set('newEntry',{group:'',name:'',html:'',entity:''});
+});
 
 </script>
 </body>
