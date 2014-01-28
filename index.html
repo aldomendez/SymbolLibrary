@@ -87,23 +87,14 @@
 </script>
 
 <script src="Ractive.min.js"></script>
+<script src="cenny.js"></script>
 <script>
-
+var srvr = new Cenny({url:'./server/cenny.php'});
 var r = new Ractive({
 	el:'#desc',
 	template:'#template',
 	data:{
-		symbols:[
-			{group:'ISO',name:'Currency',html:'curren',entity:'#164'},
-			{group:'Special',name:'Apple logo',html:'#8984',entity:'#8984'},
-			{group:'Special',name:'Black star',html:'#9733',entity:'#9733'},
-			{group:'Special',name:'White star',html:'#9734',entity:'#9734'},
-			{group:'Special',name:'Black star',html:'#9733',entity:'#9733'},
-			{group:'Special',name:'Circle star',html:'#9055',entity:'#9055'},
-			{group:'Special',name:'Circle star, Daring Fireball',html:'#10026',entity:'#10026'},
-			{group:'Special',name:'Alt, Option',html:'#8997',entity:'#8997'},
-			{group:'Special',name:'Shift',html:'#8679',entity:'#8679'}
-		],
+		symbols:[],
 		newEntry:{group:'',name:'',html:'',entity:''},
 		masterGroup:'',
 		decode:function(txt){
@@ -131,8 +122,11 @@ r.observe('newEntry.group',function (n,o) {
 r.on('add', function(){
 	r.data.symbols.push(r.data.newEntry);
 	r.set('newEntry',{group:r.data.masterGroup,name:'',html:'',entity:''});
+	srvr.set(r.data.symbols);
 });
-
+srvr.get(function(data){
+	r.set('symbols',data);
+});
 </script>
 </body>
 </html>
