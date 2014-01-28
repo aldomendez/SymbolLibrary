@@ -12,6 +12,30 @@
 }
 </head>
 <body>
+
+<div class="ui secondary pointing menu">
+  <a class="item">
+    <i class="home icon"></i> Home
+  </a>
+  <a class="item">
+    <i class="mail icon"></i> Messages
+  </a>
+  <a class="item">
+    <i class="user icon"></i> Friends
+  </a>
+  <div class="right menu">
+    <div class="item">
+      <div class="ui icon input">
+        <input type="text" placeholder="Search...">
+        <i class="search link icon"></i>
+      </div>
+    </div>
+    <a class="ui item">
+      Logout
+    </a>
+  </div>
+</div>
+
 	<div class="ui page grid masterhead segment">
 		<div class="column">
 			<h1 class="center aligned name ui header">
@@ -24,13 +48,14 @@
 		</div>
 	</div>
 
-<script id="template" type="text/x-template">
+<div id="template" style="display: none;">
 	<div class="ui six items">
 	{{#symbols:i}}
 		<div class="item">
 			<div class="content">
+      			<div class="meta">{{i}}</div>
 				<div class="ui small {{labelColor(i)}} ribbon label">{{group}}</div>
-				<div class="name">{{decode(html)}}</div>
+				<div class="name">{{{decode(html)}}}</div>
 				<p class="description">{{name}}</p>
 			</div>
 		</div>
@@ -84,7 +109,7 @@
 		<div class="ui blue button" on-click="add">Agregar</div>
 	</div>
 	{{/newEntry}}
-</script>
+</div>
 
 <script src="Ractive.min.js"></script>
 <script src="cenny.js"></script>
